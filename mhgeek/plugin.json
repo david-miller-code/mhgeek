@@ -1,0 +1,13 @@
+{
+  "id": "mhgeek",
+  "version": "1.0.0",
+  "upgrade_url": "",
+  "name": {
+    "zh": "米家极客版",
+    "en": "Mi Geek Edition"
+  },
+  "description": {
+    "zh": "米家极客版自动化接入插件",
+    "en": "Mi Geek Edition Plugin integration"
+  }
+}

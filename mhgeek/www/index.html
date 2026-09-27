@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title data-l10n="title">米家极客版</title>
+    <script src="/platform/sdk/ui-bootstrap.js"></script>
+    <link rel="stylesheet" href="/platform/css/theme.css">
+    <link rel="stylesheet" href="assets/app/style.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <main class="shell" id="main-content" data-mhg-panel aria-busy="true">
+      <header class="topbar">
+        <div class="title-block">
+          <h1 data-l10n="title">米家极客版</h1>
+          <p data-l10n="subtitle">将全局与区域状态同步到米家极客版</p>
+        </div>
+        <aside class="topbar-status" aria-live="polite">
+          <div class="topbar-status-head">
+            <span class="status-badge" data-mhg-ref="authBadge">
+              <span data-l10n="authStatusLabel">账号</span>
+              <strong data-mhg-ref="authText">-</strong>
+            </span>
+            <span class="status-badge" data-mhg-ref="stateBadge">
+              <span data-l10n="stateLabel">状态</span>
+              <strong data-mhg-ref="stateText">-</strong>
+            </span>
+          </div>
+        </aside>
+      </header>
+      <div class="operation-notice" data-mhg-ref="operationNotice" role="status" hidden>
+        <span data-mhg-ref="operationText"></span>
+      </div>
+      <section class="grid" aria-label="MHGeek 控制台">
+        <article class="panel auth-panel" aria-labelledby="auth-panel-title">
+          <header class="panel-heading">
+            <h2 id="auth-panel-title" data-l10n="authPanel">账号授权</h2>
+          </header>
+
+          <p class="auth-error" data-mhg-ref="authError" role="alert" hidden></p>
+          <div data-mhg-pane="unauthorized">
+            <form class="form-stack" data-mhg-ref="phoneForm" autocomplete="off" novalidate>
+              <div class="phone-fields">
+                <div class="field">
+                  <span id="calling-code-label" data-l10n="callingCode">国家或地区</span>
+                  <div class="country-picker" data-mhg-ref="countryPicker">
+                    <input data-mhg-ref="callingCode" type="hidden" value="CN:+86">
+                    <button id="calling-code" class="country-picker-trigger" data-mhg-ref="callingCodeTrigger"
+                            type="button" aria-haspopup="listbox" aria-expanded="false"
+                            aria-controls="calling-code-listbox"
+                            aria-labelledby="calling-code-label calling-code-value"
+                            aria-required="true">
+                      <span id="calling-code-value" data-mhg-ref="callingCodeValue"></span>
+                      <span class="country-picker-chevron" aria-hidden="true"></span>
+                    </button>
+                    <div id="calling-code-listbox" class="country-picker-menu"
+                         data-mhg-ref="callingCodeListbox" role="listbox"
+                         aria-labelledby="calling-code-label" hidden></div>
+                  </div>
+                </div>
+                <label class="field" for="mhgNationalNumber">
+                  <span data-l10n="nationalNumber">米家手机号</span>
+                  <input id="mhgNationalNumber" data-mhg-ref="nationalNumber"
+                         type="tel" inputmode="numeric" autocomplete="off" required
+                         data-l10n-placeholder="nationalNumberPlaceholder"
+                         placeholder="请输入米家手机号">
+                </label>
+              </div>
+              <div class="panel-actions end">
+                <button class="button primary" type="submit" data-mhg-ref="smsStart"
+                        data-l10n="getSmsCode">获取短信验证码</button>
+              </div>
+            </form>
+            <div class="inline-sms" data-mhg-ref="smsPane" hidden>
+              <form class="challenge-form" data-mhg-ref="smsForm" novalidate>
+                <label class="field" for="mhgSmsCode">
+                  <span data-l10n="smsCode">短信验证码</span>
+                  <input id="mhgSmsCode" data-mhg-ref="smsCode" type="text"
+                         inputmode="numeric" autocomplete="one-time-code"
+                         spellcheck="false" maxlength="8" required>
+                </label>
+                <div class="sms-actions">
+                  <button class="button secondary" type="button" data-mhg-ref="changePhone"
+                          data-l10n="changePhone">更换手机号</button>
+                  <button class="button primary" type="submit" data-mhg-ref="smsVerify"
+                          data-l10n="verifySms">验证并授权</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="authorized-summary" data-mhg-pane="authenticated" hidden>
+            <div class="account-identity">
+              <span class="identity-icon" aria-hidden="true">MI</span>
+              <div>
+                <span data-l10n="authorizedAccount">当前授权账号</span>
+                <strong data-mhg-ref="authorizedAccount">-</strong>
+              </div>
+            </div>
+            <button class="button secondary danger" type="button" data-mhg-ref="authClear"
+                    data-l10n="clearAuthorization">清除授权</button>
+          </div>
+
+          <div data-mhg-pane="pending" hidden>
+            <p class="hint" data-mhg-ref="pendingHint"></p>
+            <div class="actions">
+              <button class="button" data-mhg-ref="authRetry" data-l10n="retryStep">重试</button>
+              <button class="button secondary" data-mhg-ref="authRetryPersist"
+                      data-l10n="retryStorage" hidden>只重试存储</button>
+              <button class="button ghost" data-mhg-ref="authRestart"
+                      data-l10n="restartAuthorization">重新授权</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel" aria-labelledby="target-panel-title">
+          <header class="panel-heading">
+            <h2 id="target-panel-title" data-l10n="targetPanel">极客版</h2>
+            <span class="auth-state" data-mhg-ref="targetState"></span>
+          </header>
+          <div class="field target-field">
+            <div class="target-input-row">
+              <label for="mhgTargetIp" data-l10n="targetIp">主中枢IP</label>
+              <input id="mhgTargetIp" data-mhg-ref="targetIp" type="text" placeholder="192.168.x.x"
+                     inputmode="decimal" autocomplete="off">
+              <div class="target-actions">
+                <button class="button" data-mhg-ref="targetSave" data-l10n="saveTarget">绑定</button>
+                <button class="button secondary danger" data-mhg-ref="targetClear" hidden
+                        data-l10n="clearTarget">解绑</button>
+              </div>
+            </div>
+          </div>
+          <dl class="meta" data-mhg-ref="targetMeta"></dl>
+          <details data-mhg-ref="targetDiagnostic" hidden>
+            <summary data-l10n="diagnosticDetails">诊断详情</summary>
+            <pre data-mhg-ref="targetDiagnosticText"></pre>
+          </details>
+        </article>
+
+        <article class="panel wide events-panel" aria-labelledby="events-panel-title">
+          <header class="panel-heading">
+            <div class="events-heading-copy">
+              <h2 id="events-panel-title" data-l10n="eventsPanel">虚拟事件</h2>
+              <p class="section-description" data-l10n="eventsHint">全局与八个区域分别设置有人、无人时发送的文本。</p>
+            </div>
+            <button class="button inline" data-mhg-ref="eventsSave" data-l10n="save">保存</button>
+          </header>
+          <div class="prefix-row">
+            <div class="prefix-copy">
+              <span class="prefix-kicker" data-l10n="prefixScope">应用于全部事件</span>
+              <strong data-l10n="prefixTitle">统一事件前缀</strong>
+            </div>
+            <label class="field prefix-field">
+              <span class="sr-only" data-l10n="prefix">前缀</span>
+              <input data-mhg-ref="eventsPrefix" type="text" maxlength="32"
+                     autocomplete="off" data-l10n-placeholder="prefixPlaceholder"
+                     placeholder="例如：客厅">
+            </label>
+          </div>
+          <div class="events-table">
+            <div class="event-columns" aria-hidden="true">
+              <span data-l10n="eventArea">区域</span>
+              <span data-l10n="present">有人</span>
+              <span data-l10n="absent">无人</span>
+              <span data-l10n="absentSeconds">无人持续(秒)</span>
+              <span data-l10n="sentPreview">事件名称</span>
+            </div>
+            <div class="events-grid" data-mhg-ref="eventsGrid"></div>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script type="module" src="assets/app/index.js"></script>
+    <script type="module" src="assets/page/panel.js"></script>
+  </body>
+</html>
